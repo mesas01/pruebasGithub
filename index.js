@@ -16,8 +16,9 @@ const getPosts = async (user) => {
 
 const getCommentsForEachPost = async (posts) => {
   const res = await Promise.all(posts.map(post => 
-    fetch(`${url}/comments?postId=${post.id}&_limit=2`)  
-  ))
+    fetch(`${url}/comments?postId=${post.id}&_limit=6`)
+  ));
+  console.log(res); 
   const postComments = await Promise.all(res.map(r => r.json()));
   
   postComments.forEach((comments, i) => posts[i].comments = comments);
@@ -26,7 +27,7 @@ const getCommentsForEachPost = async (posts) => {
 const renderHtml = (user, posts) => {
   const content = document.getElementById('content');
   content.innerHTML += `<h3>Posts del usuario ${user.email}</h3>`;
-    
+  
   posts.forEach(post => {
     content.innerHTML += `
     <div class="post">
@@ -45,7 +46,7 @@ const getBlogContent = async () => {
     const posts = await getPosts(user);
     await getCommentsForEachPost(posts);
 
-    renderHtml(user, posts);    
+    renderHtml(user, posts);
   } catch (err) {
     console.log(err);
   }
@@ -54,5 +55,9 @@ const getBlogContent = async () => {
 getBlogContent();
 
 const loadAdds = () => {
-  console.log("adds loaded");
+  console.log('Adds loaded');
+}
+
+const affiliateRedirect = () => {
+  // resolver el bug
 }
